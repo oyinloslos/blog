@@ -12,47 +12,91 @@
 
    #including functions
    include '../includes/functions.php';
+
+
+   #errors
+   $errors=[];
+
+   #validate form
+
+   if(array_key_exists('register', $_POST)) {
    
+        #validate email
 
- 
-     
+      if(empty($_POST['email'])){
+         $errors['email'] = "*please enter a email address </br>" ; 
+      }
 
+      if(empty($_POST['password'])){
+         $errors['password'] = "*Please enter a password </br>";
 
+      }
+
+       
+
+      if(empty($errors)) {
+         //do database stuff
+
+         #eliminate unwanted spaces from values in the $_POST array
+         $clean = array_map('trim', $_POST);
+
+         $chk = adminLogin($conn,$clean);
+        
+
+            $row = $chk[1];
+
+            #set user session..
+            $_SESSION['admin_id'] = $row['admin_id'];
+            //$_SESSION['admin_name'] = $row['firstName'];
+
+            # redirect...
+            redirect('home.php');
+         
+
+      }
+
+   }
    
 ?>
     
    <div class="wrapper">
-		<h1 id="register-label">Admin Login</h1>
-		<hr>
-		<form id="register"  action ="adminlogin.php" method ="POST">
-         
-			<div>
-            
-				
-				<label>email:</label>
-				<input type="text" name="email" placeholder="email">
-			</div>
-			<div>
+      <h1 id="register-label">Admin Login</h1>
+      <hr>
+      <form id="register"  action ="adminlogin.php" method ="POST">
+         <?php
+            $errmsg = displayErrors($_GET, 'msg');
+            echo $errmsg;
+         ?>
+         <div>
             <?php
-               //$errmsg = displayErrors($errors,'password');
-
-               //echo $errmsg;
+               $errmsg = displayErrors($errors,'email');
+               echo $errmsg;
             ?>
-				
-				<label>password:</label>
-				<input type="password" name="password" placeholder="password">
-			</div>
+            
+            <label>email:</label>
+            <input type="text" name="email" placeholder="email">
+         </div>
+         <div>
+            <?php
+               $errmsg = displayErrors($errors,'password');
 
-			<input type="submit" name="register" value="login">
-		</form>
+               echo $errmsg;
+            ?>
+            
+            <label>password:</label>
+            <input type="password" name="password" placeholder="password">
+         </div>
 
-		<h4 class="jumpto">Don't have an account? <a href="register.php">register</a></h4>
-	</div>
+         <input type="submit" name="register" value="login">
+      </form>
+
+      <h4 class="jumpto">Don't have an account? <a href="adminregister.php">register</a></h4>
+   </div>
 
 <?php
    #include footer
  
-   include '../includes/footer.php';
+   include 'includes/footer.php';
 
 ?>
-	
+   
