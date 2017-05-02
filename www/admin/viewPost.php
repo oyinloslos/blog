@@ -1,22 +1,51 @@
 <?php
-
+   session_start();
    #including functions
    include '../includes/functions.php';
 
    checkLogin();
    #title
 
-   $page_title = "Register";
+   $page_title = "View Post";
 
    #load db connection
    include '../includes/db.php';
-  
    #include header
-   include 'includes/header.php';
+   include 'includes/dashboard_header.php';
+
 
    ?>
 
 
    <div class="wrapper">
-    <h1 id="register-label">view</h1>
-    <hr>
+		<div id="stream">
+
+		    <table id="tab">
+			    <thead>
+					<tr>
+						
+						<th>Post Title</th>
+						<th>Post</th>
+						<th>date created</th>
+						<th>edit</th>
+						<th>delete</th>
+					</tr>
+				</thead>
+				<tbody>
+
+				   <?php $view=viewPost($conn);
+				   echo $view;
+				   ?>
+
+          		</tbody>
+			</table>
+		</div>
+				
+			
+</div>
+
+<?php
+	
+	include 'includes/footer.php';
+
+?>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>TEST</title>
+	<title><?php echo $page_title; ?></title>
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 
