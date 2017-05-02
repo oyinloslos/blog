@@ -50,7 +50,7 @@
             //$_SESSION['admin_name'] = $row['firstName'];
 
             # redirect...
-            redirect('home.php');
+            redirect('addPost.php');
          
 
       }

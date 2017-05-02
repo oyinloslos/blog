@@ -7,7 +7,7 @@
 <body>
 	<section>
 		<div class="mast">
-			<h1>T<span>SSB</span></h1>
+			<h1>O<span>BLOG</span></h1>
 
 
 		</div>
