@@ -245,7 +245,7 @@
 
        function viewArchive($dbconn){
         $result="";
-       $stmt=$dbconn->prepare("SELECT DISTINCT post_id,DATE_FORMAT(date_posted, '%M %Y') AS d FROM archive");
+       $stmt=$dbconn->prepare("SELECT DISTINCT post_id,DATE_FORMAT(date_posted, '%M %Y') AS d,date_posted FROM archive");
 
        $stmt->execute();
 
@@ -253,10 +253,34 @@
 
         //$row1=getPostByID($dbconn,$row['post_id']);
 
-        $result.= '<li><a href="archive.php">'.$row['d'].'</a></li>';
+       $result.= '<li><a href="archive.php?date='.$row['date_posted'].'">'.$row['d'].'</a></li>';
 
        }
+       
        return $result;
+
+       }
+
+
+       function getArchivePost($dbconn,$datePost){
+        $result="";
+
+        $stmt=$dbconn->prepare("SELECT * FROM  blogPost WHERE date_posted=:dp");
+        $stmt->bindParam(":dp", $datePost);
+
+        $stmt->execute();
+        while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
+
+        $row1=getAdmin($dbconn,$row['admin_id']);
+
+        $result.= '<h2 class="blog-post-title">'.$row['title'].'</h2>';
+        $result.= '<p class="blog-post-meta">'.$row['date_posted']. " by ".'<a href=" ">'.$row1['firstname'].'</a></p>';
+        $result.= htmlspecialchars_decode($row['body']);
+
+        }
+
+        return $result;
+
 
        }
 
