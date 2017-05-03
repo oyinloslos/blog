@@ -175,9 +175,46 @@
          redirect('viewPost.php');
 
        }
+
+       function getAdmin($dbconn,$adminID){
+
+       	$stmt=$dbconn->prepare("SELECT * FROM  admin WHERE admin_id=:ai");
+
+     	$stmt->bindParam(":ai", $adminID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+       return $row;
+
+      }
+
+       
  
 
+       function displayPost($dbconn){
+      	$result="";
+       	$stmt=$dbconn->prepare("SELECT admin_id,title,body,DATE_FORMAT(date_posted,'%M %d, %Y') AS d FROM blogPost");
+       	
+       	$stmt->execute();
 
+       	while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
+       		
+       		$row1=getAdmin($dbconn,$row['admin_id']);
+ 
+       		
+       	$result.= '<h2 class="blog-post-title">'.$row['title'].'</h2>';
+        $result.= '<p class="blog-post-meta">'.$row['d']. " by ".'<a href=" ">'.$row1['firstname'].'</a></p>';
+        $result.= htmlspecialchars_decode($row['body']);
+
+
+         }
+       	
+
+         return $result; 
+
+
+       }
 
 
 
