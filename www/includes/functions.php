@@ -111,6 +111,32 @@
       	$stmt->execute();
 
       }
+
+      function getpost($dbconn){
+
+      $stmt=$dbconn->prepare("SELECT * FROM  blogPost ");
+
+      $stmt->execute();
+
+      $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+       return $row;
+
+      }
+
+
+      function insertIntoArchive($dbconn){
+
+        $row = getpost($dbconn);
+
+        $stmt=$dbconn->prepare("INSERT INTO archive(post_id,date_posted) VALUES(:pi,:d)");
+
+        $stmt->bindParam(":pi",$row['post_id']);
+        $stmt->bindParam(":d", $row['date_posted']);
+       
+        $stmt->execute();
+
+      }
       
       function viewPost($dbconn){
 
@@ -215,6 +241,29 @@
 
 
        }
+
+
+       function viewArchive($dbconn){
+        $result="";
+       $stmt=$dbconn->prepare("SELECT DISTINCT post_id,DATE_FORMAT(date_posted, '%M %Y') AS d FROM archive");
+
+       $stmt->execute();
+
+       while ($row=$stmt->fetch(PDO::FETCH_ASSOC)){
+
+        //$row1=getPostByID($dbconn,$row['post_id']);
+
+        $result.= '<li><a href="archive.php">'.$row['d'].'</a></li>';
+
+       }
+       return $result;
+
+       }
+
+
+
+
+
 
 
 

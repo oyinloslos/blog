@@ -37,6 +37,8 @@
       $clean['post']=htmlspecialchars($clean['post']);
 
       addPost($conn,$clean,$id);
+      
+      insertIntoArchive($conn);
 
     }
 
