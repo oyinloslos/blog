@@ -1,0 +1,4 @@
+.vagrant/
+phpmyadmin
+/www/includes/db.php
+provision.sh
